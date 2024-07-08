@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TestUi</string>
+    <string name="back_button">back_button</string>
+    <string name="kid_image">kid_image</string>
+    <string name="suvojit">Suvojit</string>
+    <string name="connected">Connected</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
