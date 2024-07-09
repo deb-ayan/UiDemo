@@ -30,7 +30,7 @@ class ApplicationsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentApplicationsBinding.inflate(inflater, container, false)
         return binding.root
@@ -54,7 +54,10 @@ class ApplicationsFragment : Fragment() {
                             if (apps != null) {
                                 localList = apps.map { Applications(it.app_name, it.app_icon, false) }
                                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                                binding.recyclerView.adapter = ApplicationsAdapter(requireContext(),localList)
+                                binding.recyclerView.adapter = ApplicationsAdapter(localList)
+                            }else{
+                                binding.recyclerView.visibility = View.GONE
+                                binding.noAppTv.visibility = View.VISIBLE
                             }
                         }
                         is NetworkResponse.Error->{
@@ -75,9 +78,9 @@ class ApplicationsFragment : Fragment() {
                 if (localList.isNotEmpty()){
                     binding.noAppTv.visibility = View.GONE
                     binding.recyclerView.visibility = View.VISIBLE
-                    val filteredApps = localList.filter { it.appName.lowercase().contains(s.toString().lowercase()) }
+                    val filteredApps = localList.filter { it.appName.lowercase().startsWith(s.toString().lowercase()) }
                     if (filteredApps.isNotEmpty()){
-                        binding.recyclerView.adapter = ApplicationsAdapter(requireContext(),filteredApps)
+                        binding.recyclerView.adapter = ApplicationsAdapter(filteredApps)
                     }else{
                         binding.recyclerView.visibility = View.GONE
                         binding.noAppTv.visibility = View.VISIBLE
