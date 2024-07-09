@@ -3,19 +3,30 @@ package com.example.testui.presentation.screens.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.testui.R
 import com.example.testui.databinding.FragmentApplicationsBinding
 import com.example.testui.model.Applications
 import com.example.testui.presentation.adapter.ApplicationsAdapter
+import com.example.testui.presentation.viewmodel.ApplicationViewModel
+import com.example.testui.utils.NetworkResponse
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ApplicationsFragment : Fragment() {
     private lateinit var binding: FragmentApplicationsBinding
+    private val applicationViewModel: ApplicationViewModel by viewModels()
+    private lateinit var localList: List<Applications>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,22 +38,54 @@ class ApplicationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val apps = listOf(
-            Applications("Assistant", R.drawable.assistant, false),
-            Applications("Calculator", R.drawable.calculator, false),
-            Applications("Calculator", R.drawable.cal, false),
-            Applications("Calendar", R.drawable.calendar, false),
-            Applications("Chrome", R.drawable.chrome, false),
-        )
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = ApplicationsAdapter(requireContext(),apps)
+        applicationViewModel.getApplications()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                applicationViewModel.apiState.collect { response ->
+                    when(response){
+                        is NetworkResponse.Idle->{}
+                        is NetworkResponse.Loading->{
+                            binding.progress.visibility  = View.VISIBLE
+                        }
+                        is NetworkResponse.Success->{
+                            binding.progress.visibility  = View.GONE
+                            binding.recyclerView.visibility = View.VISIBLE
+                            val apps = response.data?.info?.app_list
+                            if (apps != null) {
+                                localList = apps.map { Applications(it.app_name, it.app_icon, false) }
+                                binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                                binding.recyclerView.adapter = ApplicationsAdapter(requireContext(),localList)
+                            }
+                        }
+                        is NetworkResponse.Error->{
+                            binding.progress.visibility  = View.GONE
+                            binding.recyclerView.visibility = View.GONE
+                            binding.noAppTv.visibility = View.VISIBLE
+                            Log.e("NETWORK_ERROR", "onViewCreated: ${response.message}", )
+                        }
+                    }
+                }
+            }
+        }
 
         binding.searchView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val filteredApps = apps.filter { it.appName.lowercase().contains(s.toString().lowercase()) }
-                binding.recyclerView.adapter = ApplicationsAdapter(requireContext(),filteredApps)
+                if (localList.isNotEmpty()){
+                    binding.noAppTv.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+                    val filteredApps = localList.filter { it.appName.lowercase().contains(s.toString().lowercase()) }
+                    if (filteredApps.isNotEmpty()){
+                        binding.recyclerView.adapter = ApplicationsAdapter(requireContext(),filteredApps)
+                    }else{
+                        binding.recyclerView.visibility = View.GONE
+                        binding.noAppTv.visibility = View.VISIBLE
+                    }
+                }else{
+                    binding.recyclerView.visibility = View.GONE
+                    binding.noAppTv.visibility = View.VISIBLE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {}

@@ -4,6 +4,6 @@ import androidx.annotation.DrawableRes
 
 data class Applications(
     val appName: String,
-    @DrawableRes val appIcon: Int,
+    val appIcon: String,
     var isConnected: Boolean
 )

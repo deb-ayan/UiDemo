@@ -1,13 +1,13 @@
 package com.example.testui.presentation.adapter
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.testui.databinding.ListItemBinding
 import com.example.testui.model.Applications
-import com.example.testui.R
+import com.example.testui.model.App
 
 class ApplicationsAdapter(
     private val context: Context,
@@ -16,16 +16,9 @@ class ApplicationsAdapter(
     inner class ApplicationsViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(app: Applications){
             binding.appName.text = app.appName
-            binding.appIcon.setImageResource(app.appIcon)
-            binding.switchButton.isChecked = app.isConnected
+            binding.appIcon.load(app.appIcon)
             binding.switchButton.setOnCheckedChangeListener { _, isChecked ->
                 app.isConnected = isChecked
-//                binding.switchButton.setThumbTintList(
-//                    ColorStateList.valueOf(context.resources.getColor(R.color.top_back_bg))
-//                )
-//                binding.switchButton.setTrackTintList(
-//                    ColorStateList.valueOf(context.resources.getColor(R.color.top_back_bg_light))
-//                )
             }
         }
     }
