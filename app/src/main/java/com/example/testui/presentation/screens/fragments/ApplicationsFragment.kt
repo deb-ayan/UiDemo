@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ApplicationsFragment : Fragment() {
+class ApplicationsFragment : Fragment(), ApplicationsAdapter.OnCheckChanged {
     private lateinit var binding: FragmentApplicationsBinding
     private val applicationViewModel: ApplicationViewModel by viewModels()
     private lateinit var localList: List<Applications>
@@ -52,9 +52,9 @@ class ApplicationsFragment : Fragment() {
                             binding.recyclerView.visibility = View.VISIBLE
                             val apps = response.data?.info?.app_list
                             if (apps != null) {
-                                localList = apps.map { Applications(it.app_name, it.app_icon, false) }
+                                localList = apps.map { Applications(it.app_name, it.app_icon, it.status == "Active" || it.status == "active") }
                                 binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                                binding.recyclerView.adapter = ApplicationsAdapter(localList)
+                                binding.recyclerView.adapter = ApplicationsAdapter(localList, this@ApplicationsFragment)
                             }else{
                                 binding.recyclerView.visibility = View.GONE
                                 binding.noAppTv.visibility = View.VISIBLE
@@ -80,7 +80,7 @@ class ApplicationsFragment : Fragment() {
                     binding.recyclerView.visibility = View.VISIBLE
                     val filteredApps = localList.filter { it.appName.lowercase().startsWith(s.toString().lowercase()) }
                     if (filteredApps.isNotEmpty()){
-                        binding.recyclerView.adapter = ApplicationsAdapter(filteredApps)
+                        binding.recyclerView.adapter = ApplicationsAdapter(filteredApps, this@ApplicationsFragment)
                     }else{
                         binding.recyclerView.visibility = View.GONE
                         binding.noAppTv.visibility = View.VISIBLE
@@ -95,6 +95,10 @@ class ApplicationsFragment : Fragment() {
 
         })
 
+    }
+
+    override fun onCheck(position: Int, state: Boolean) {
+        localList[position].isConnected = state
     }
 
 }

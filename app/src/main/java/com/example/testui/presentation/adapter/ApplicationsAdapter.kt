@@ -8,7 +8,8 @@ import com.example.testui.databinding.ListItemBinding
 import com.example.testui.model.Applications
 
 class ApplicationsAdapter(
-    private val apps: List<Applications>
+    private val apps: List<Applications>,
+    private val onCheckChanged: OnCheckChanged
 ): RecyclerView.Adapter<ApplicationsAdapter.ApplicationsViewHolder>() {
     inner class ApplicationsViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(app: Applications){
@@ -16,7 +17,7 @@ class ApplicationsAdapter(
             binding.appIcon.load(app.appIcon)
             binding.switchButton.isChecked = app.isConnected
             binding.switchButton.setOnCheckedChangeListener { _, isChecked ->
-                app.isConnected = isChecked
+                onCheckChanged.onCheck(adapterPosition, isChecked)
             }
         }
     }
@@ -33,4 +34,9 @@ class ApplicationsAdapter(
     override fun onBindViewHolder(holder: ApplicationsViewHolder, position: Int) {
         holder.bind(apps[position])
     }
+
+    interface OnCheckChanged{
+        fun onCheck(position: Int, state: Boolean)
+    }
+
 }
