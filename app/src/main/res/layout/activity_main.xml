@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/kid_image"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/student"
                 android:scaleType="fitXY"/>
         </androidx.cardview.widget.CardView>
 
