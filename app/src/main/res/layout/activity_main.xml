@@ -21,7 +21,7 @@
             app:tint="@color/white"
             android:contentDescription="@string/back_button"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="20dp"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/kid_image"
@@ -29,7 +29,7 @@
             android:layout_height="100dp"
             app:cardCornerRadius="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="20dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -71,6 +71,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/check"
                 android:src="@drawable/baseline_check_24"
                 android:background="@drawable/check_bg"
                 android:padding="1dp"
