@@ -39,7 +39,7 @@ class ApplicationsAdapter(
             }
             binding.switchButton.isChecked = app.isConnected
             binding.switchButton.setOnCheckedChangeListener { _, isChecked ->
-                onCheckChanged.onCheck(adapterPosition, isChecked)
+                onCheckChanged.onCheck(layoutPosition, isChecked)
             }
         }
     }
