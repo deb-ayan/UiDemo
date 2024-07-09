@@ -5,13 +5,25 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:contentDescription="@string/icon"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_foreground"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/loader"
+            android:layout_width="45dp"
+            android:layout_height="45dp"/>
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:contentDescription="@string/icon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_foreground"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/app_name"
