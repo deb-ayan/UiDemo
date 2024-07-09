@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/app_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:contentDescription="@string/icon"
         android:layout_gravity="center"
         android:src="@drawable/ic_launcher_foreground"/>
@@ -20,14 +20,18 @@
         android:layout_weight="1"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:text="Calculator"
+        android:fontFamily="sans-serif"
         android:layout_gravity="center"
         android:textColor="@color/black"
-        android:textSize="22sp"/>
+        android:alpha="0.6"
+        android:textSize="20sp"/>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
         app:thumbTint="@drawable/thumb_color_switch"
         app:trackTint="@drawable/track_color_switch"/>
 

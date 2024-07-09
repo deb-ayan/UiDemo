@@ -24,6 +24,8 @@
             android:autofillHints=""
             android:background="@null"
             android:hint="@string/search"
+            android:fontFamily="sans-serif"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:inputType="text" />
         <ImageView
             android:layout_width="wrap_content"

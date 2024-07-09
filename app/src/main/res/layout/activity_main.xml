@@ -44,13 +44,14 @@
             android:layout_height="wrap_content"
             android:text="@string/suvojit"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:layout_below="@id/kid_image"
             android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
             android:layout_marginTop="12dp"/>
 
         <LinearLayout
-            android:layout_width="180dp"
+            android:layout_width="160dp"
             android:layout_height="45dp"
             android:gravity="center"
             android:orientation="horizontal"
@@ -63,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/connected"
-                android:textSize="18sp"
+                android:fontFamily="sans-serif"
+                android:textAppearance="@style/TextAppearance.AppCompat.Menu"
                 android:textColor="@color/black" />
 
             <ImageView
@@ -71,9 +73,9 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_check_24"
                 android:background="@drawable/check_bg"
-                android:padding="2dp"
+                android:padding="1dp"
                 app:tint="@color/white"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="10dp" />
 
         </LinearLayout>
         
@@ -83,7 +85,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/top_back_bg"
-            app:tabTextColor="@color/white"
+            app:tabTextColor="#BFFFFFFF"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:tabIndicatorFullWidth="false"
             app:tabIndicator="@drawable/custom_tab_indicator"
             app:tabIndicatorColor="@color/white"/>
 
